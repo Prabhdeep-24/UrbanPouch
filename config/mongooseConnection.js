@@ -5,7 +5,7 @@ const dbgr = require('debug')('development:mongoose');
 mongoose
 .connect(`${process.env.MONGODB_URI}/UrbanPouch`)
 .then(()=>{
-    dbgr("Database Connected...");
+    console.log("Database Connected...");
 })
 .catch((err)=>{
     dbgr("Something went wrong: ",err);

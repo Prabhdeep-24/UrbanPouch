@@ -11,4 +11,4 @@ const ownerSchema=new mongoose.Schema({
     gstNum: String
 });
 
-module.exports = mongoose.model('onwer',ownerSchema);
+module.exports = mongoose.model('owner',ownerSchema);

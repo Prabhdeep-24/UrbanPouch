@@ -3,7 +3,9 @@ const app = express();
 require('dotenv').config();
 const expressSession = require('express-session');
 const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(expressSession({

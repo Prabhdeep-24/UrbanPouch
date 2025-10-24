@@ -28,7 +28,9 @@ module.exports.registerUser = async function registerUser(req,res){
     let user = await userModel.findOne({email : email});
 
     if(user){
-        return res.status(401).send("You already have an account, please log in");
+        req.flash('error_msg','You already have an account, please log in');
+        res.redirect('/');
+        return;
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -43,7 +45,7 @@ module.exports.registerUser = async function registerUser(req,res){
     let token= await generateToken(newUser);
     res.cookie('token', token);
 
-    res.status(201).send("user created successfully");
+    res.status(201).redirect('/products');
     }
     catch(err) {
         res.status(500).send(err.message);

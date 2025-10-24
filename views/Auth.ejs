@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UrbanPouch | Login & Register</title>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -13,10 +13,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </head>
 
-  <body class="bg-light d-flex align-items-center justify-content-center" style="height:100vh;">
+  <body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+
+    <!-- Flash Messages -->
+    <div class="position-absolute top-0 w-100 p-3">
+      <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+          <%= success_msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+          <%= error_msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Container -->
     <div class="container bg-white rounded-4 shadow-lg p-0 overflow-hidden" style="max-width: 900px;">
       <div class="row g-0">
-        <!-- Left side: Login -->
+
+        <!-- Left Side: Login -->
         <div class="col-md-6 p-5 d-flex flex-column justify-content-center bg-primary text-white">
           <h2 class="fw-bold mb-4 text-center">Welcome Back 👋</h2>
           <form action="/users/login" method="POST">
@@ -32,7 +52,7 @@
           </form>
         </div>
 
-        <!-- Right side: Register -->
+        <!-- Right Side: Register -->
         <div class="col-md-6 p-5 d-flex flex-column justify-content-center">
           <h2 class="fw-bold mb-4 text-center text-primary">Create Account 🚀</h2>
           <form action="/users/register" method="POST">
@@ -51,7 +71,9 @@
             <button type="submit" class="btn btn-primary w-100 fw-semibold">Register</button>
           </form>
         </div>
+
       </div>
     </div>
+
   </body>
 </html>
