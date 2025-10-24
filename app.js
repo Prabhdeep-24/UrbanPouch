@@ -4,6 +4,9 @@ require('dotenv').config();
 const expressSession = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use(cookieParser());
 app.use(express.json());
@@ -21,6 +24,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 app.set('view engine', 'ejs');
 
 const db = require('./config/mongooseConnection');
@@ -28,11 +38,13 @@ const db = require('./config/mongooseConnection');
 const ownersRouter = require('./routes/ownersRouter');
 const productsRouter = require('./routes/productsRouter');
 const usersRouter = require('./routes/usersRouter');
+const cartRouter = require('./routes/cartRouter');
 const index =require('./routes/index')
 
 app.use('/',index);
 app.use('/owners',ownersRouter);
 app.use('/products',productsRouter);
 app.use('/users',usersRouter);
+app.use('/cart',cartRouter);
 
 app.listen(3000);

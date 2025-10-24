@@ -8,9 +8,7 @@ const ProductSchema= new mongoose.Schema({
         type: Number,
         default: 0
     },
-    bgcolor : String,
-    panelColor : String,
-    textColor : String
+    color : String,
 });
 
 module.exports = mongoose.model("product",ProductSchema);
