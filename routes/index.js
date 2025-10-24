@@ -10,7 +10,7 @@ router.get('/login',(req,res)=>{
     res.render('auth', {title: "Welcome to UrbanPouch"});
 })
 
-router.get('/cart', isLoggedIn,(req, res) => {
+router.get('/cart', (req, res) => {
     res.render('cart',{title: "Shopping Cart"})
 });
 
