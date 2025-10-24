@@ -10,5 +10,8 @@ router.get('/login',(req,res)=>{
     res.render('auth', {title: "Welcome to UrbanPouch", user: req.user});
 })
 
+router.get('/cart', isLoggedIn,(req, res) => {
+    res.render('cart',{title: "Shopping Cart"})
+});
 
 module.exports = router;
