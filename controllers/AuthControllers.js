@@ -62,11 +62,17 @@ module.exports.loginUser = async function loginUser(req,res){
     bcrypt.compare(password, user.password, (err,result)=>{
         if(result){
             let token=generateToken(user);
-            cookie.token('token', token);
-            res.status(401).send("You can login")
+            res.cookie('token', token);
+            res.status(200).redirect('/products')
         }
         else{
             res.status(401).send("Email or Password is incorrect");
         }
     })    
+}
+
+module.exports.logoutUser = async function logoutUser(req,res){
+    res.clearCookie('token'); 
+    req.flash('success_msg', 'You have logged out successfully!');
+    res.redirect('/'); 
 }

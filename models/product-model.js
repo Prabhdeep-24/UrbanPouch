@@ -1,9 +1,9 @@
 const mongoose=require('mongoose');
 
-const ProductSchema={
-    Image : String,
+const ProductSchema= new mongoose.Schema({
+    image : Buffer,
     name : String,
-    Price : String,
+    price : String,
     discount : {
         type: Number,
         default: 0
@@ -11,6 +11,6 @@ const ProductSchema={
     bgcolor : String,
     panelColor : String,
     textColor : String
-};
+});
 
 module.exports = mongoose.model("product",ProductSchema);
