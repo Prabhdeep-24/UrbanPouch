@@ -13,6 +13,7 @@ module.exports = async function(req, res, next){
                 .select("-password");
         
         if(!user){
+            req.user = null;
             req.flash('error_msg','User not found. Please log in again.');
             res.clearCookie('token');
             return res.redirect('/login');
@@ -23,8 +24,9 @@ module.exports = async function(req, res, next){
     }
 
     catch(err) {
+        req.user = null;
         req.flash('error_msg', 'Session expired. Please log in again.');
         res.clearCookie('token');
-        res.redirect('/login');
+        return res.redirect('/login');
     }
 }

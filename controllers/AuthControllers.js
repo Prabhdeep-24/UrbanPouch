@@ -105,7 +105,8 @@ module.exports.logoutUser = async function logoutUser(req, res) {
     secure: false,
     sameSite: 'lax',
   });
-
+  
+  req.user = null;
   req.flash('success_msg', 'You have logged out successfully!');
   return res.redirect('/');
 };
