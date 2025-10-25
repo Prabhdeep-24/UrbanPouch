@@ -11,6 +11,13 @@ UrbanPouch is a simple e-commerce web application built using Node.js, Express, 
 * Session management using express-session
 * EJS templating with Bootstrap for UI
 
+## How to Use
+   There are two modes of this application:   
+   * User : User is allowed to browse the products (bags, purse, etc.) from this application and add them to cart, and then buy(the payment method or gateway is not setup until now)
+   * Owner: Owner is able to add the new products to the shop, in order to login as owner use following credentials:
+      * email: owner@gmail.com
+      * password: IamOwner
+
 ## Tech Stack
 
 Node.js, Express.js, MongoDB, Mongoose, EJS, Multer, JWT, Bootstrap 5
