@@ -85,5 +85,3 @@ MONGODB_URI=your_mongodb_connection_string
 JWT_KEY=your_jwt_secret
 PORT=3000
 ```
-
-## Author
