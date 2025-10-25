@@ -7,11 +7,8 @@ router.get('/',isLoggedIn,(req, res)=>{
 })
 
 router.get('/login',(req,res)=>{
-    res.render('auth', {title: "Welcome to UrbanPouch"});
+    res.render('auth', {title: "Welcome to UrbanPouch", user: req.user});
 })
 
-router.get('/cart', (req, res) => {
-    res.render('cart',{title: "Shopping Cart"})
-});
 
 module.exports = router;

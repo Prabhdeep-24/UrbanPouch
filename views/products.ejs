@@ -82,15 +82,32 @@
 <body class="bg-light">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="/">UrbanPouch</a>
-            <div class="d-flex align-items-center gap-3">
-                <a href="/owners/new" class="btn btn-success fw-semibold">+ Add Product</a>
-                <a href="/cart" class="btn btn-light position-relative" id="cart-btn"> 🛒 Cart </a>
-                <a href="/users/logout" class="btn btn-outline-light btn-sm">Logout</a>
-            </div>
-        </div>
-    </nav>
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">UrbanPouch</a>
+
+    <div class="d-flex align-items-center gap-3">
+      <% if (user) { %>
+        <% if (user.isAdmin) { %>
+          <!-- 🧑‍💼 Admin View -->
+          <a href="/owners/new" class="btn btn-success fw-semibold">+ Add Product</a>
+          <a href="/owners/account" class="btn btn-outline-light">Admin Dashboard</a>
+          <a href="/users/logout" class="btn btn-warning text-dark fw-semibold">Logout</a>
+
+        <% } else { %>
+          <!-- 👤 Regular User View -->
+          <a href="/cart" class="btn btn-light position-relative">🛒 Cart</a>
+          <a href="/users/account" class="btn btn-outline-light">My Account</a>
+          <a href="/users/logout" class="btn btn-warning text-dark fw-semibold">Logout</a>
+        <% } %>
+
+      <% } else { %>
+        <!-- 🧍‍♂️ Guest View -->
+        <a href="/login" class="btn btn-outline-light btn-sm">Login</a>
+        <a href="/register" class="btn btn-light btn-sm text-primary fw-bold">Sign Up</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
 
     <div class="container py-5">
         <h2 class="text-center mb-4 fw-bold text-primary">
@@ -133,14 +150,18 @@
                                                     <p class="mb-2">Discount: 0%</p>
                                                     <% } %>
 
-                                                        <!-- 🛒 Add to Cart Button -->
-                                                        <div class="add-to-cart-wrapper text-center">
-                                                            <button
-                                                                class="btn btn-outline-primary w-100 add-to-cart-btn"
-                                                                data-id="<%= product._id %>">
-                                                                Add to Cart
-                                                            </button>
+                                                        <div class="text-center">
+                                                            <% if (user && user.isAdmin) { %>
+                                                                <button class="btn btn-danger w-100 mt-2 remove-product-btn" data-id="<%= product._id %>">
+                                                                🗑️ Remove Product
+                                                                </button>
+                                                            <% } else { %>
+                                                                <button class="btn btn-outline-primary w-100 add-to-cart-btn mt-2" data-id="<%= product._id %>">
+                                                                🛒 Add to Cart
+                                                                </button>
+                                                            <% } %>
                                                         </div>
+
 
                                         </div>
                         </div>
@@ -273,6 +294,25 @@
             updateCartBadge();
         });
 
+
+        document.querySelectorAll(".remove-product-btn").forEach((btn) => {
+            btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (!confirm("Are you sure you want to delete this product?")) return;
+
+            try {
+                const res = await fetch(`/products/${id}`, { method: "DELETE" });
+                const data = await res.json();
+
+                if (data.success) {
+                    btn.closest(".cards").remove(); // remove the card from UI instantly
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Something went wrong!");
+            }
+            });
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

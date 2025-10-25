@@ -4,6 +4,8 @@ require('dotenv').config();
 const expressSession = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
+
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,6 +33,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(methodOverride('_method'));
+
 app.set('view engine', 'ejs');
 
 const db = require('./config/mongooseConnection');
@@ -40,7 +44,19 @@ const productsRouter = require('./routes/productsRouter');
 const usersRouter = require('./routes/usersRouter');
 const cartRouter = require('./routes/cartRouter');
 const index =require('./routes/index')
+const userModel = require('./models/user-model');
+const {createUser} = require('./controllers/AuthControllers');
 
+async function createOwner(){
+    const user = await userModel.findOne({isAdmin: true});
+    if(user){
+      return;
+    }
+  
+    await createUser('owner','owner@gmail.com','IamOwner',true);  
+}
+
+createOwner();
 app.use('/',index);
 app.use('/owners',ownersRouter);
 app.use('/products',productsRouter);
