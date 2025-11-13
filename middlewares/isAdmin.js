@@ -5,7 +5,7 @@ module.exports = (req, res, next)=>{
     try{
         if(!req.user){
             req.flash('error_msg','Only Admin allowed');
-            res.redirect('/');
+            res.redirect('/login');
             return;
         }
         if(!req.user.isAdmin){
