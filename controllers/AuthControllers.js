@@ -44,7 +44,7 @@ module.exports.registerUser = async function registerUser(req, res) {
     const user = await userModel.findOne({ email });
     if (user) {
       req.flash('error_msg', 'You already have an account, please log in');
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     const newUser = await module.exports.createUser(Name, email, password, false);
@@ -62,7 +62,7 @@ module.exports.registerUser = async function registerUser(req, res) {
   } catch (err) {
     console.error('Registration error:', err.message);
     req.flash('error_msg', 'Internal Server Error');
-    return res.redirect('/');
+    return res.redirect('/login');
   }
 };
 
@@ -70,10 +70,11 @@ module.exports.loginUser = async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
-
+    
     if (!user) {
+      console.log(user)
       req.flash('error_msg', 'Email or Password is incorrect');
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -108,5 +109,5 @@ module.exports.logoutUser = async function logoutUser(req, res) {
   
   req.user = null;
   req.flash('success_msg', 'You have logged out successfully!');
-  return res.redirect('/');
+  return res.redirect('/login');
 };
